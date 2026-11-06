@@ -1,0 +1,32 @@
+{
+  "name": "on_crash_intercept",
+  "version": 1,
+  "event": "process.fault",
+  "when": "pre_execution",
+  "description": "Intercepts fatal faults (SIGSEGV, SIGBUS, SIGFPE, ZeroDivisionError, null deref, poisoned operand) from the worker process and routes the crash dump to the agent mesh.",
+  "action": {
+    "type": "route_to_agent_mesh",
+    "pipeline": [
+      "NecroInspector",
+      "PatchSynthesizer",
+      "ReanimatorEngine"
+    ],
+    "steering": [
+      ".kiro/steering/memory_safety_invariants.md",
+      ".kiro/steering/patch_synthesis_limits.md"
+    ],
+    "mcp_server": "necro_telemetry",
+    "mcp_tools": [
+      "read_crash_dump",
+      "inspect_memory_registers",
+      "inject_hotpatch"
+    ]
+  },
+  "on_failure": "escalate_without_reboot",
+  "signals": [
+    "SIGSEGV",
+    "SIGBUS",
+    "SIGFPE",
+    "ZeroDivisionError"
+  ]
+}

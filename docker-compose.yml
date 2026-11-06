@@ -1,0 +1,27 @@
+# One-click: docker compose up --build
+# The API has no authentication, so it is published on the host loopback only.
+services:
+  necrokernel:
+    build:
+      context: .
+      target: runtime
+    image: necrokernel-os:local
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      NECRO_HOST: "0.0.0.0"
+    shm_size: "64m"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    restart: "no"   # the engine must never be restarted to hide a crash
+
+  tests:
+    build:
+      context: .
+      target: test
+    profiles: ["test"]
+    shm_size: "64m"

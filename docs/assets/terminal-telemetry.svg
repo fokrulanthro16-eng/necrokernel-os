@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="260" role="img" aria-label="Mock terminal telemetry (placeholder)">
+  <title>PLACEHOLDER: mock terminal telemetry, hand-written, not captured output</title>
+  <rect width="720" height="260" rx="8" fill="#0b0f14" stroke="#1f2a36"/>
+  <circle cx="18" cy="16" r="5" fill="#ff5f56"/><circle cx="36" cy="16" r="5" fill="#ffbd2e"/><circle cx="54" cy="16" r="5" fill="#27c93f"/>
+  <g font-family="monospace" font-size="13">
+    <text x="16" y="52" fill="#7ee7c7">[state]  HEALTHY</text>
+    <text x="16" y="76" fill="#ff6b6b">[fault]  kind=&lt;fault&gt; key=&lt;key&gt;  (simulated access, real signal to own PID)</text>
+    <text x="16" y="100" fill="#8aa4ff">[hook]   on_crash_intercept</text>
+    <text x="16" y="124" fill="#f5a524">[inspect] NecroInspector -&gt; PatchSynthesizer</text>
+    <text x="16" y="148" fill="#f5a524">[patch]  AST diff validated (&lt;=25 LOC, &lt;=350 ms)</text>
+    <text x="16" y="172" fill="#8aa4ff">[hook]   post_reanimation_verify</text>
+    <text x="16" y="196" fill="#34d399">[state]  REANIMATED  pid unchanged</text>
+    <text x="16" y="240" fill="#6b7a8c">PLACEHOLDER: layout mock only. Real numbers: docs/assets/measured_recovery.json</text>
+  </g>
+</svg>

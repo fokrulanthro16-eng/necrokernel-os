@@ -1,0 +1,28 @@
+spec: reanimation_contract
+version: 1
+description: Formal invariants for state recovery after a fatal fault.
+invariants:
+  - id: INV-PID
+    statement: "pid_after == pid_before"
+    meaning: The worker is never restarted; the OS process identity is preserved.
+  - id: INV-STATE
+    statement: "forall k in preserved_keys: state_after[k] == state_before[k] or k in patched_keys"
+    meaning: Only keys named by the patch may change; all other session state is untouched.
+  - id: INV-HEAP
+    statement: "forall k in patched_keys: not is_null(heap[k]) and not is_poisoned(heap[k])"
+    meaning: Patched keys are non-null (empty-dict sentinel) and finite after recovery; other keys are untouched (INV-STATE).
+  - id: INV-BOUND
+    statement: "loc(patch) <= 25 and elapsed_ms(patch) <= 350"
+    meaning: Patches are bounded in size and time.
+  - id: INV-CONTINUITY
+    statement: "digest(session), digest(crypto context), counters and worker token equal before/after, except patched keys"
+    meaning: Worker-local state (token) and shared heap state survive reanimation unchanged.
+  - id: INV-PROGRESS
+    statement: "task_result_after is not None"
+    meaning: The interrupted task completes on re-execution.
+tolerances:
+  epsilon_bytes: 16  # INV-HEAP-DRIFT: |M_after - M_before| <= epsilon, M = bytes of the canonical heap frame
+  max_cycles: 8  # fault -> patch -> verify cycles the Reanimator may run per task before quarantine
+recovery:
+  max_attempts: 3  # reanimations per task execution (one fault each)
+  forbidden: [container_reboot, process_restart]

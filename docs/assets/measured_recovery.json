@@ -1,0 +1,25 @@
+{
+  "iterations": 50,
+  "successful": 50,
+  "pid_before": 106,
+  "pid_after": 106,
+  "distinct_pids_observed": [
+    106
+  ],
+  "restarts": 0,
+  "reanimations": 50,
+  "max_cycles_used": 1,
+  "reanimate_ms": {
+    "min": 2.32,
+    "median": 3.11,
+    "p95": 3.89,
+    "max": 4.08
+  },
+  "median_ms_by_kind": {
+    "null": 2.73,
+    "nan": 3.33,
+    "segv": 3.17,
+    "sigbus": 3.23,
+    "div0": 2.62
+  }
+}

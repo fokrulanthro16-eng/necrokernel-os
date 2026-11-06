@@ -1,0 +1,77 @@
+{
+  "mcpServers": {
+    "necro_telemetry": {
+      "command": "python",
+      "args": [
+        "-m",
+        "engine.mcp_gateway"
+      ],
+      "tools": [
+        {
+          "name": "read_crash_dump",
+          "description": "Return registers, call stack, execution pointer and fault metadata for a crashed worker.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "worker": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "worker"
+            ]
+          }
+        },
+        {
+          "name": "inject_hotpatch",
+          "description": "Validate and apply a bounded hot-patch to a crashed worker's faulting key only, then run post_reanimation_verify.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "worker": {
+                "type": "string"
+              },
+              "patch_source": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "worker",
+              "patch_source"
+            ]
+          }
+        },
+        {
+          "name": "verify_process_health",
+          "description": "Check PID continuity and heap consistency of a worker.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "worker": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "worker"
+            ]
+          }
+        },
+        {
+          "name": "inspect_memory_registers",
+          "description": "Return the register file, execution pointer, call-stack offsets and shared-memory heap frame of the worker's latest crash (or the current heap frame if none).",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "worker": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "worker"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

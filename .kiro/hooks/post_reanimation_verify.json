@@ -1,0 +1,21 @@
+{
+  "name": "post_reanimation_verify",
+  "version": 1,
+  "event": "process.reanimated",
+  "when": "post_execution",
+  "description": "Validates heap consistency and PID continuity after a hot-patch.",
+  "action": {
+    "type": "mcp_tool",
+    "mcp_server": "necro_telemetry",
+    "tool": "verify_process_health"
+  },
+  "enforce": [
+    "INV-PID",
+    "INV-HEAP",
+    "INV-PROGRESS"
+  ],
+  "on_failure": "quarantine_worker_without_reboot",
+  "signals": [
+    "process.reanimated"
+  ]
+}

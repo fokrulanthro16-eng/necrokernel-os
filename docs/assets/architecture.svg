@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="360" role="img" aria-label="NecroKernel-OS architecture (placeholder diagram)">
+  <title>PLACEHOLDER architecture diagram; eBPF box is planned, not implemented</title>
+  <rect width="860" height="360" rx="8" fill="#0b0f14" stroke="#1f2a36"/>
+  <g font-family="monospace" font-size="12" fill="#d6e2f0" text-anchor="middle">
+    <rect x="30" y="40" width="190" height="70" rx="6" fill="#111a24" stroke="#7ee7c7"/>
+    <text x="125" y="70">Worker process</text><text x="125" y="90">(own PID, shared heap)</text>
+    <rect x="335" y="40" width="190" height="70" rx="6" fill="#111a24" stroke="#8aa4ff"/>
+    <text x="430" y="70">Hypervisor</text><text x="430" y="90">(waitpid, Pipe IPC, bus)</text>
+    <rect x="640" y="40" width="190" height="70" rx="6" fill="#111a24" stroke="#f5a524"/>
+    <text x="735" y="70">Kiro agent crew</text><text x="735" y="90">Inspector/Synth/Reanimator</text>
+    <rect x="30" y="200" width="300" height="70" rx="6" fill="none" stroke="#6b7a8c" stroke-dasharray="6 4"/>
+    <text x="180" y="230" fill="#9aa8b8">eBPF telemetry interceptor</text><text x="180" y="250" fill="#9aa8b8">PLANNED / CONCEPTUAL, not implemented</text>
+    <rect x="520" y="200" width="310" height="70" rx="6" fill="#111a24" stroke="#34d399"/>
+    <text x="675" y="230">Implemented today:</text><text x="675" y="250">Python signal handlers + Pipe</text>
+    <path d="M220 75H335M525 75H640" stroke="#d6e2f0" fill="none"/>
+    <path d="M735 110V150H430V110" stroke="#f5a524" fill="none"/>
+  </g>
+  <text x="430" y="330" font-family="monospace" font-size="11" fill="#6b7a8c" text-anchor="middle">PLACEHOLDER asset: simplified mock; see README.md Mermaid diagrams</text>
+</svg>

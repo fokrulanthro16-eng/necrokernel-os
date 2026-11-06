@@ -1,0 +1,22 @@
+spec: patch_verification
+version: 1
+description: Property-based testing bounds for synthesized hot-patches.
+bounds:
+  max_loc: 25
+  max_runtime_ms: 350
+properties:
+  - name: idempotent
+    statement: "patch(patch(s)) == patch(s)"
+  - name: non_destructive
+    statement: "keys(s) subset keys(patch(s))"
+  - name: heap_consistent
+    statement: "health(patch(s)).ok"
+generators:
+  num_cases: 50
+  fault_kinds: [NULL_DEREF, POISONED_OPERAND, SIGSEGV]
+  seed: 1337
+forbidden_ast_nodes: [Import, ImportFrom, While, Lambda, Global, Nonlocal, Try, With, ClassDef, FunctionDef_nested]
+hypothesis:
+  max_examples: 100  # minimum examples per property-based invariant test (deadline disabled)
+  invariants: [heap_non_divergence, state_continuity, pid_preservation]
+  fallback: seeded stdlib random loop, 100+ iterations, used when hypothesis is not importable
