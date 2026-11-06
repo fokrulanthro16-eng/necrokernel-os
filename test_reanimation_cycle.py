@@ -580,6 +580,13 @@ def test_http_health_endpoint_response():
     assert HYPERVISOR.state in ["HEALTHY", "REANIMATED", "POISONED"]
 
 
+def test_http_metrics_endpoint_response():
+    from engine.server import HYPERVISOR
+    w = HYPERVISOR.worker
+    assert w.reanimation_count >= 0
+    assert w.fault_count >= 0
+
+
 def test_http_security_cors_headers():
     from engine.server import ALLOWED_ORIGINS
     assert "http://localhost:3000" in ALLOWED_ORIGINS

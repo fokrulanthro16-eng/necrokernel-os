@@ -105,6 +105,21 @@ class NecroHttpHandler(BaseHTTPRequestHandler):
                 "quarantined": HYPERVISOR.worker.quarantined,
                 "reanimations": HYPERVISOR.worker.reanimation_count,
             })
+        elif path == "/metrics":
+            w = HYPERVISOR.worker
+            self._send_json(HTTPStatus.OK, {
+                "supervisor_pid": os.getpid(),
+                "worker_pid": HYPERVISOR.worker_pid,
+                "hv_state": HYPERVISOR.state,
+                "reanimations_total": w.reanimation_count,
+                "faults_total": w.fault_count,
+                "restarts_total": 0,
+                "quarantined": w.quarantined,
+                "heap_size_bytes": len(w.heap._buf),
+                "heap_drift_tolerance_bytes": 16,
+                "patch_ceiling_ms": 350,
+                "patch_max_loc": 25,
+            })
         elif path.startswith("/workers/"):
             parts = path.strip("/").split("/")
             if len(parts) == 2:
