@@ -30,4 +30,4 @@ export const EVENT_TYPES: EventType[] = [
   "state", "fault", "hook", "steering", "patch", "inspect", "mcp", "pulse",
 ];
 
-export type ConnStatus = "connecting" | "open" | "reconnecting";
+export type ConnStatus = "connecting" | "open" | "reconnecting" | "demo";

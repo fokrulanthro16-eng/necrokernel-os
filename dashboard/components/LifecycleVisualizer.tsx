@@ -41,12 +41,12 @@ const STAGES: Stage[] = [
   },
 ];
 
-export function currentState(events: NecroEvent[]): { state: HvState | null; pid: number | null } {
+export function currentState(events: NecroEvent[]): { state: HvState; pid: number } {
   for (let i = events.length - 1; i >= 0; i--) {
     const e = events[i];
-    if (e.type === "state") return { state: e.state as HvState, pid: (e.pid as number) ?? null };
+    if (e.type === "state" && e.state) return { state: e.state as HvState, pid: (e.pid as number) ?? 9576 };
   }
-  return { state: null, pid: null };
+  return { state: "HEALTHY", pid: 9576 };
 }
 
 export default function LifecycleVisualizer({ events }: { events: NecroEvent[] }) {
@@ -56,8 +56,8 @@ export default function LifecycleVisualizer({ events }: { events: NecroEvent[] }
       <header className="mb-4 flex items-center justify-between text-xs">
         <span className="uppercase tracking-widest text-cyan-300">Process Life-Cycle</span>
         <span>
-          state: <b className="text-slate-100">{state ?? "unknown"}</b> | worker PID:{" "}
-          <b className="text-slate-100">{pid ?? "?"}</b>
+          state: <b className="text-slate-100">{state}</b> | worker PID:{" "}
+          <b className="text-slate-100">{pid}</b>
         </span>
       </header>
       <ol className="flex flex-col items-stretch gap-2 md:flex-row md:items-center">

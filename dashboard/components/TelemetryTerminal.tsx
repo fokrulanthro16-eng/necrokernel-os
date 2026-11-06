@@ -41,7 +41,11 @@ export default function TelemetryTerminal({
   }, [rows, follow]);
 
   const dot =
-    status === "open" ? "bg-emerald-400" : status === "connecting" ? "bg-amber-400" : "bg-red-500";
+    status === "open" || status === "demo"
+      ? "bg-emerald-400"
+      : status === "connecting"
+      ? "bg-amber-400"
+      : "bg-red-500";
 
   return (
     <section className="flex h-[28rem] flex-col rounded border border-slate-800 bg-black/60">
@@ -59,9 +63,15 @@ export default function TelemetryTerminal({
           <button className="rounded border border-slate-700 px-2 hover:bg-slate-800" onClick={onClear}>
             clear
           </button>
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1.5">
             <span className={`inline-block h-2 w-2 rounded-full ${dot}`} />
-            {status}
+            {status === "demo" ? (
+              <span className="rounded border border-emerald-500/40 bg-emerald-950/80 px-2 py-0.5 text-[10px] font-bold tracking-wider text-emerald-300">
+                DEMO SIMULATOR ACTIVE
+              </span>
+            ) : (
+              <span className="text-slate-300">{status}</span>
+            )}
           </span>
         </span>
       </header>
