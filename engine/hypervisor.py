@@ -132,7 +132,7 @@ class Hypervisor:
 
             return {"status": "ok", "pid": self.worker.pid}
 
-    def reanimate(self) -> Dict[str, Any]:
+    def reanimate(self, delay: float = 0.0) -> Dict[str, Any]:
         """Execute tri-agent reanimation cycle (NecroInspector -> PatchSynthesizer -> ReanimatorEngine)."""
         with self._lock:
             if self.worker.quarantined:
@@ -149,6 +149,14 @@ class Hypervisor:
 
             def on_event(ev_type: str, data: Dict[str, Any]):
                 self.bus.emit(ev_type, data)
+
+            if delay > 0:
+                from .agent_mesh import NecroInspector, PatchSynthesizer
+                diagnosis = NecroInspector.diagnose(dump)
+                on_event("inspect", {"diagnosis": diagnosis})
+                patch_src, ast_diff = PatchSynthesizer.synthesize(diagnosis, self.worker.state)
+                on_event("patch", {"patch_src": patch_src, "ast_diff": ast_diff})
+                time.sleep(delay)
 
             res = self.reanimator.reanimate(self.worker, on_event=on_event)
 

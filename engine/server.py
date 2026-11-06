@@ -155,7 +155,8 @@ class NecroHttpHandler(BaseHTTPRequestHandler):
             code = res.get("code", HTTPStatus.OK)
             self._send_json(code, res)
         elif path == "/hv/reanimate":
-            res = HYPERVISOR.reanimate()
+            delay = float(body.get("delay", 0.0))
+            res = HYPERVISOR.reanimate(delay=delay)
             code = res.get("code", HTTPStatus.OK)
             self._send_json(code, res)
         elif path == "/hv/reset":
