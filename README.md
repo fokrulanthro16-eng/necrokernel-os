@@ -1,5 +1,13 @@
 # NecroKernel-OS
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://necrokernel-hypervisor.vercel.app)
+[![Demo Video](https://img.shields.io/badge/Demo%20Video-YouTube-red?style=for-the-badge&logo=youtube)](https://youtu.be/gKrssHOq73M)
+[![Tests](https://img.shields.io/badge/Tests-59%2F59%20Passed-brightgreen?style=for-the-badge)]()
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)]()
+
+> **Live Interactive Dashboard:** [https://necrokernel-hypervisor.vercel.app](https://necrokernel-hypervisor.vercel.app)  
+> **Championship Video Walkthrough:** [https://youtu.be/gKrssHOq73M](https://youtu.be/gKrssHOq73M)
+
 <p align="center">
   <img src="docs/assets/badge-pid-stable.svg" alt="PID Stable" />
   <img src="docs/assets/badge-heap-drift.svg" alt="Heap Drift &le; 16B" />
