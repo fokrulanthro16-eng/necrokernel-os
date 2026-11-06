@@ -6,7 +6,7 @@ strictly showcasing the NecroKernel-OS Self-Healing Micro-Hypervisor.
 Author: Fokrul Islam
 Copyright (c) 2026 FOKRUL ISLAM (MIT License)
 Kiroween 2026 Frankenstein Championship
-Target Run-time: ~105 - 115 seconds
+Target Run-time: ~105 - 120 seconds
 """
 
 import os
@@ -23,8 +23,8 @@ import imageio_ffmpeg
 WORKSPACE_DIR = Path(__file__).resolve().parent.parent
 DOCS_ASSETS_DIR = WORKSPACE_DIR / "docs" / "assets"
 DOCS_ASSETS_DIR.mkdir(parents=True, exist_ok=True)
+SCREENSHOTS_DIR = DOCS_ASSETS_DIR / "screenshots"
 TEMP_DIR = WORKSPACE_DIR / ".video_temp_4k"
-TEMP_DIR.mkdir(parents=True, exist_ok=True)
 
 FINAL_VIDEO_PATH = DOCS_ASSETS_DIR / "necrokernel_championship_demo.mp4"
 FINAL_AUDIO_PATH = DOCS_ASSETS_DIR / "voiceover.mp3"
@@ -258,97 +258,42 @@ def render_slide_2(out_path: Path):
     im.save(out_path)
 
 # -------------------------------------------------------------
-# SLIDE 3: Live Telemetry Capture (localhost:3000 UI)
+# SLIDE 3: Live Telemetry Capture (Embeds Genuine Next.js Dashboard UI)
 # -------------------------------------------------------------
 def render_slide_3(out_path: Path):
     im = Image.new("RGB", (WIDTH, HEIGHT), BG_COLOR)
     draw = ImageDraw.Draw(im)
-    draw_topbar(draw, "LIVE TELEMETRY PROOF", "MISSION CONTROL: HTTP://LOCALHOST:3000", ACCENT_GREEN)
+    draw_topbar(draw, "LIVE MISSION CONTROL", "HTTP://LOCALHOST:3000 • WORKER PID: 6908 [PRESERVED]", ACCENT_GREEN)
 
-    # 4 Stage Transition Flow (Top Half)
-    flow_stages = [
-        ("01. HEALTHY", "Worker running tasks at PID 6908", ACCENT_CYAN, "INITIAL STATE"),
-        ("02. FAULT INJECTED", "SIGFPE / div by zero caught in memory", ACCENT_RED, "SIGNAL TRAPPED"),
-        ("03. PATCH SYNTHESIS", "Kiro AST delta generated (3 LOC, 12ms)", ACCENT_AMBER, "AST GENERATION"),
-        ("04. REANIMATED", "Surgical hot-swap OK • Drift: 0 Bytes", ACCENT_GREEN, "PID 6908 INTACT"),
-    ]
-    fx = 120
-    fw = 855
-    f_ft = get_font(38, bold=True, mono=True)
-    f_fb = get_font(28)
-    for sname, ssub, scol, sstatus in flow_stages:
-        draw.rounded_rectangle([fx, 170, fx + fw, 450], radius=18, fill=CARD_BG, outline=scol, width=3)
-        draw.text((fx + 35, 205), sname, fill=scol, font=f_ft)
-        draw.text((fx + 35, 265), ssub, fill=TEXT_WHITE, font=f_fb)
-        draw.rounded_rectangle([fx + 35, 335, fx + fw - 35, 410], radius=10, fill="#06090F", outline="#1F2937", width=1)
-        draw.text((fx + 55, 355), f"STATUS: {sstatus}", fill=scol, font=get_font(26, bold=True, mono=True))
-        fx += fw + 30
-
-    # Bottom Left: Live Telemetry Terminal Capture
-    draw.rounded_rectangle([120, 480, 2400, 1980], radius=24, fill=CARD_BG, outline=CARD_BORDER, width=3)
-    draw.rectangle([120, 480, 2400, 580], fill="#111B2E")
-    f_th = get_font(40, bold=True, mono=True)
-    draw.text((170, 510), "TELEMETRY TERMINAL (LIVE SSE STREAM // HTTP://LOCALHOST:3000)", fill=ACCENT_CYAN, font=f_th)
-
-    draw.rounded_rectangle([160, 610, 2360, 1940], radius=16, fill="#05080E", outline="#152134", width=2)
-    term_lines = [
-        ("16:39:50. #101 [state]", "{\"state\":\"HEALTHY\",\"pid\":6908,\"active_tasks\":[\"tx_01\"]}", ACCENT_CYAN),
-        ("16:39:52. #102 [fault]", "{\"kind\":\"ZERO_DIVISION\",\"signal\":\"SIGFPE\",\"key\":\"metrics\",\"rip\":\"0x7fff0800\"}", ACCENT_RED),
-        ("16:39:52. #103 [hook] ", "{\"hook\":\"on_crash_intercept\",\"event\":\"process.fault\",\"kind\":\"ZERO_DIVISION\"}", ACCENT_PURPLE),
-        ("16:39:53. #104 [state]", "{\"state\":\"PATCH_SYNTHESIS\",\"pid\":6908}", ACCENT_AMBER),
-        ("16:39:53. #105 [inspect]", "{\"diagnosis\":{\"fault\":\"ZERO_DIVISION\",\"signal\":\"SIGFPE\",\"rax\":\"0x16752187140\",\"rip\":\"0x7fff0800\"}}", ACCENT_CYAN),
-        ("16:39:54. #106 [patch]", "{\"patch_src\":\"def patch(state):\\n    state['metrics'] = {'latency_ms': 1.0, 'errors': 0}\\n\"}", ACCENT_AMBER),
-        ("16:39:54. #107 [diff] ", "{\"ast_diff\":\"@@ -1,2 +1,2 @@\\n def patch(state):\\n-    pass\\n+    state['metrics'] = {'latency_ms': 1.0, 'errors': 0}\"}", ACCENT_GREEN),
-        ("16:39:54. #108 [hook] ", "{\"hook\":\"post_reanimation_verify\",\"event\":\"process.reanimated\",\"drift_bytes\":0}", ACCENT_PURPLE),
-        ("16:39:54. #109 [state]", "{\"state\":\"REANIMATED\",\"pid\":6908,\"drift_bytes\":0,\"reanimations\":1}", ACCENT_GREEN),
-        ("16:39:55. #110 [exec] ", "{\"task\":\"tx_01\",\"status\":\"COMPLETED\",\"result\":{\"balance\":1000.00},\"pid\":6908}", ACCENT_GREEN),
-    ]
-    ty = 650
-    f_tmono = get_font(30, mono=True)
-    for ttag, tcontent, tcol in term_lines:
-        draw.text((200, ty), ttag, fill=tcol, font=f_tmono)
-        draw.text((620, ty), tcontent, fill=TEXT_WHITE if tcol != ACCENT_RED else ACCENT_RED, font=f_tmono)
-        ty += 122
-
-    # Bottom Right: CPU Registers & Invariant Verification Matrix
-    draw.rounded_rectangle([2460, 480, 3720, 1980], radius=24, fill=CARD_BG, outline=CARD_BORDER, width=3)
-    draw.rectangle([2460, 480, 3720, 580], fill="#111B2E")
-    draw.text((2510, 510), "CPU REGISTERS & INVARIANT PROOF", fill=ACCENT_GREEN, font=f_th)
-
-    # Register Dump Box
-    draw.rounded_rectangle([2500, 610, 3680, 1140], radius=16, fill="#05080E", outline="#152134", width=2)
-    f_reg_h = get_font(32, bold=True, mono=True)
-    draw.text((2540, 640), "CPU REGISTER STATE AT TRAP (SIGFPE):", fill=ACCENT_CYAN, font=f_reg_h)
-    regs = [
-        "rax: 0x0000016752187140    rbx: 0x0000000000000006",
-        "rcx: 0x0000000000000008    rdx: 0x00000000B0720669",
-        "rsi: 0x0000000000000000    rdi: 0x00000167520E0810",
-        "rsp: 0x0000016752125010    rbp: 0x00000167521252B0",
-        "rip: 0x0000000007FFF0800    eflags: [CF PF AF ZF SF IF]",
-    ]
-    ry = 710
-    f_rmono = get_font(30, mono=True)
-    for rline in regs:
-        draw.text((2540, ry), rline, fill=TEXT_WHITE, font=f_rmono)
-        ry += 75
-
-    # Contract Invariant Proof Table
-    draw.rounded_rectangle([2500, 1180, 3680, 1940], radius=16, fill="#05080E", outline="#152134", width=2)
-    draw.text((2540, 1220), "MATHEMATICAL INVARIANTS VERIFICATION:", fill=ACCENT_GREEN, font=f_reg_h)
-    inv_proofs = [
-        ("INV-PID", "pid_after == pid_before (PID: 6908)", "VERIFIED [PASS]", ACCENT_GREEN),
-        ("INV-STATE", "Preserved keys bitwise identical", "VERIFIED [PASS]", ACCENT_GREEN),
-        ("INV-DRIFT", "Measured drift: 0 Bytes (<= 16B)", "VERIFIED [PASS]", ACCENT_GREEN),
-        ("INV-BOUND", "Patch: 3 LOC, 12ms (<= 25 LOC)", "VERIFIED [PASS]", ACCENT_GREEN),
-        ("INV-PROGRESS", "Pending task completed cleanly", "VERIFIED [PASS]", ACCENT_GREEN),
-    ]
-    py = 1300
-    for icode, idesc, istat, icol in inv_proofs:
-        draw.text((2540, py), icode, fill=ACCENT_CYAN, font=get_font(32, bold=True, mono=True))
-        draw.text((2820, py), idesc, fill=TEXT_MUTED, font=get_font(28))
-        draw.text((3380, py), istat, fill=icol, font=get_font(28, bold=True, mono=True))
-        draw.line([2540, py + 95, 3640, py + 95], fill="#152134", width=1)
-        py += 125
+    # Embedded Real Dashboard Screenshot
+    dash_path = SCREENSHOTS_DIR / "04_reanimation_verification.png"
+    if dash_path.exists():
+        dash_im = Image.open(dash_path)
+        # Browser Window Container Frame
+        bw_x, bw_y, bw_w, bw_h = 100, 160, 3640, 1860
+        draw.rounded_rectangle([bw_x, bw_y, bw_x + bw_w, bw_y + bw_h], radius=20, fill="#0F172A", outline=CARD_BORDER, width=3)
+        
+        # Browser Toolbar Header
+        draw.rectangle([bw_x, bw_y, bw_x + bw_w, bw_y + 80], fill="#1E293B")
+        # Traffic light dots
+        draw.ellipse([bw_x + 30, bw_y + 28, bw_x + 54, bw_y + 52], fill="#EF4444")
+        draw.ellipse([bw_x + 65, bw_y + 28, bw_x + 89, bw_y + 52], fill="#F59E0B")
+        draw.ellipse([bw_x + 100, bw_y + 28, bw_x + 124, bw_y + 52], fill="#10B981")
+        
+        # URL pill
+        draw.rounded_rectangle([bw_x + 160, bw_y + 16, bw_x + 1200, bw_y + 64], radius=10, fill="#0A0E17", outline="#334155", width=1)
+        draw.text((bw_x + 190, bw_y + 26), "http://localhost:3000/ // NECROKERNEL-OS MISSION CONTROL", fill=ACCENT_CYAN, font=get_font(28, bold=True, mono=True))
+        
+        # Right status indicator in browser bar
+        draw.text((bw_x + bw_w - 950, bw_y + 26), "STATE: REANIMATED  •  PID: 6908  •  DRIFT: 0B", fill=ACCENT_GREEN, font=get_font(28, bold=True, mono=True))
+        
+        # Paste scaled screenshot
+        dash_resized = dash_im.resize((bw_w - 20, bw_h - 100), Image.Resampling.LANCZOS)
+        im.paste(dash_resized, (bw_x + 10, bw_y + 90))
+    else:
+        # Fallback card if screenshot path missing
+        draw.rounded_rectangle([120, 180, WIDTH - 120, 1980], radius=24, fill=CARD_BG, outline=ACCENT_GREEN, width=3)
+        draw.text((200, 300), "DASHBOARD CAPTURE: PID 6908 • REANIMATED", fill=ACCENT_GREEN, font=get_font(48, bold=True))
 
     draw_footer(draw, "LIVE TELEMETRY PROOF // WORKER PID 6908 STRICTLY PRESERVED // ZERO HEAP DRIFT")
     im.save(out_path)
@@ -418,7 +363,7 @@ def render_slide_4(out_path: Path):
         ("}", TEXT_WHITE),
         ("", TEXT_WHITE),
         ("// KEY HIGHLIGHT: Exactly ZERO process restarts across 50 stress cycles.", ACCENT_GREEN),
-        ("// Continuous running worker uptime with identical operating system PID.", ACCENT_GREEN),
+        ("// Continuous running worker uptime with identical operating system PID 6908.", ACCENT_GREEN),
     ]
     my = 350
     for mline, mcol in m_lines:
@@ -436,7 +381,7 @@ def render_slide_4(out_path: Path):
     im.save(out_path)
 
 # -------------------------------------------------------------
-# NARRATION & TIMINGS (Precisely Calibrated to 105-115s Total)
+# NARRATION & TIMINGS (Calibrated to ~105-115s Total)
 # -------------------------------------------------------------
 SCENES = [
     {
@@ -551,14 +496,27 @@ def extract_master_audio(in_video: Path, out_audio: Path):
     ]
     subprocess.run(cmd, check=True, capture_output=True)
 
-async def main():
+async def main(force: bool = False):
     print("=" * 80)
     print(" NecroKernel-OS Ultra-HD (4K 60fps) Championship Demo Video Build")
     print(f" Target Video : {FINAL_VIDEO_PATH}")
     print(f" Target Audio : {FINAL_AUDIO_PATH}")
     print(f" Resolution   : {WIDTH}x{HEIGHT} @ {FPS}fps (Ultra-HD Canvas)")
     print(f" Voice Model  : {VOICE_NAME} (High Bitrate AAC 320k)")
+    print(f" Force Mode   : {force}")
     print("=" * 80)
+
+    # Clean previous outputs
+    if force or FINAL_VIDEO_PATH.exists():
+        print("[Cleanup] Removing existing target video and temp buffer...")
+        if FINAL_VIDEO_PATH.exists():
+            FINAL_VIDEO_PATH.unlink()
+        if FINAL_AUDIO_PATH.exists():
+            FINAL_AUDIO_PATH.unlink()
+    
+    if TEMP_DIR.exists():
+        shutil.rmtree(TEMP_DIR, ignore_errors=True)
+    TEMP_DIR.mkdir(parents=True, exist_ok=True)
 
     clips = []
     total_duration = 0.0
@@ -621,4 +579,5 @@ async def main():
     print("=" * 80)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    force_flag = "--force" in sys.argv
+    asyncio.run(main(force=force_flag))

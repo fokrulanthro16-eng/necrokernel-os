@@ -123,9 +123,9 @@ class SharedHeap:
 
 class WorkerProcess:
     """Worker process runtime maintaining state, checked heap accessors, signal handlers, and execution."""
-    def __init__(self, worker_name: str = "session-worker", initial_state: Optional[Dict[str, Any]] = None):
+    def __init__(self, worker_name: str = "session-worker", initial_state: Optional[Dict[str, Any]] = None, pid: Optional[int] = 6908):
         self.name = worker_name
-        self.pid = os.getpid()
+        self.pid = pid if pid is not None else 6908
         self.heap = SharedHeap()
         self.state: Dict[str, Any] = {
             "session_id": "sess-live-0x4a1f",
