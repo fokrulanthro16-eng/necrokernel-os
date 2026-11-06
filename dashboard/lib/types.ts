@@ -3,7 +3,7 @@ export const API_BASE = process.env.NEXT_PUBLIC_NECRO_API ?? "http://127.0.0.1:8
 export type HvState =
   | "HEALTHY"
   | "POISONED"
-  | "Ptive: "border-e
+  | "PATCH_SYNTHESIS"
   | "REANIMATED"
   | "UNRESPONSIVE"
   | "DEAD"
